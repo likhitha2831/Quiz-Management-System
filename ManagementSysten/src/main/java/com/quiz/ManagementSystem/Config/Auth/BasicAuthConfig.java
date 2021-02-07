@@ -29,6 +29,7 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
                 .antMatchers(HttpMethod.POST, "/users/admin").hasAnyAuthority(ADMIN_ROLE)
+                .antMatchers(HttpMethod.POST, "/question").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

@@ -31,4 +31,6 @@ public class UserController {
         User user = userService.create(adminCommand, Role.ADMIN);
         return new ResponseEntity<>(new UserResponse(user), HttpStatus.CREATED);
     }
+    //TODO api to update score for given user
+    //TODO api to get score for given user
 }

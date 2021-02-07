@@ -19,4 +19,10 @@ public class GlobalExceptionHandler {
         ErrorResponse apiError = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong");
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }
+
+    @ExceptionHandler({QuestionNotFoundException.class})
+    public ResponseEntity<ErrorResponse> handleQuestionNotFoundException(Exception ex) {
+        ErrorResponse apiError = new ErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+        return new ResponseEntity<>(apiError, apiError.getStatus());
+    }
 }
