@@ -1,6 +1,7 @@
 package com.quiz.ManagementSystem.User;
 
 import com.quiz.ManagementSystem.exception.InvalidEmailException;
+import com.quiz.ManagementSystem.exception.UnAuthorizedUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -29,6 +30,15 @@ public class UserService implements UserDetailsService {
         return userRepository.save(newUser);
     }
 
+    public void updateUserDetails(CreateUserCommand userCommand) {
+        Optional<User> user = userRepository.findByEmail(userCommand.getEmail());
+        if (user.isPresent()) {
+            userRepository.save(user.get());
+        } else {
+            throw new UsernameNotFoundException("User not found");
+        }
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email).orElseThrow(() -> {
@@ -40,6 +50,15 @@ public class UserService implements UserDetailsService {
                 user.getPassword(),
                 getAuthorities(user)
         );
+    }
+
+    public boolean validateUserDetails(UserLoginDetails userLoginDetails) throws UnAuthorizedUserException {
+        UserDetails userDetails = loadUserByUsername(userLoginDetails.getEmail());
+        if (User.isPasswordValid(userDetails.getPassword(), userLoginDetails.getPassword())) {
+            return true;
+        } else {
+            throw new UnAuthorizedUserException();
+        }
     }
 
     private static Collection<? extends GrantedAuthority> getAuthorities(User user) {

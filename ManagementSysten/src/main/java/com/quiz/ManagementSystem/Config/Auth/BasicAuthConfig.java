@@ -27,8 +27,13 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/users").permitAll()
-                .antMatchers(HttpMethod.POST, "/users/admin").hasAnyAuthority(ADMIN_ROLE)
+                .antMatchers(HttpMethod.POST, "/users/createUser").hasAnyAuthority(ADMIN_ROLE)
+                .antMatchers(HttpMethod.POST, "/users/admin").permitAll()
+                .antMatchers(HttpMethod.PUT, "/users/userDetails").hasAnyAuthority(ADMIN_ROLE)
+                .antMatchers(HttpMethod.POST, "/users/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/accounts/createAccount").permitAll()
+                .antMatchers(HttpMethod.PUT, "/accounts/credit").permitAll()
+                .antMatchers(HttpMethod.PUT, "/accounts/debit").permitAll()
                 .antMatchers(HttpMethod.POST, "/question").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()

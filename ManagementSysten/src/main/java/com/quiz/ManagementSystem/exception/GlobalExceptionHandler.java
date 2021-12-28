@@ -20,9 +20,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }
 
-    @ExceptionHandler({QuestionNotFoundException.class})
+    @ExceptionHandler({UserNotFoundException.class, AccountNotFountException.class})
     public ResponseEntity<ErrorResponse> handleQuestionNotFoundException(Exception ex) {
         ErrorResponse apiError = new ErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+        return new ResponseEntity<>(apiError, apiError.getStatus());
+    }
+
+    @ExceptionHandler({UnAuthorizedUserException.class})
+    public ResponseEntity<ErrorResponse> handleUnAuthorizedUserException(Exception ex) {
+        ErrorResponse apiError = new ErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }
 }

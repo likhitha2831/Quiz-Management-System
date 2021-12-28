@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -23,4 +26,20 @@ public class CreateUserCommand {
                     + "must contain 1 or more uppercase characters and must contain 1 or more special characters.")
     @NotBlank(message = "Password is mandatory")
     private final String password;
+
+    @Valid
+    @NotBlank(message = "Address is mandatory")
+    private final String address;
+
+    @NotBlank(message = "pan number is mandatory")
+    private final String panNumber;
+
+    @NotBlank(message = "Adhaar card number is mandatory")
+    private final String adhaarCard;
+
+    @NotBlank(message = "phone number is mandatory")
+    private final String phoneNumber;
+
+    @Enumerated(EnumType.STRING)
+    private final Role role;
 }
